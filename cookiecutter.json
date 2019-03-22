@@ -4,6 +4,7 @@
   "project_slug": "{{ cookiecutter.github_project_name|replace('-', '_') }}",
   "description": "My project description...",
   "author_name": "Nekmo",
+  "github_user": "{{ cookiecutter.author_name }}",
   "domain_name": "example.com",
   "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@{{ cookiecutter.domain_name }}",
   "version": "0.1.0",
