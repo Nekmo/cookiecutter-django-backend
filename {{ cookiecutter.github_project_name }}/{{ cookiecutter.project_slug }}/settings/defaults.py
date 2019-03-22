@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "rest_framework",
 
     # Project apps
-    "{{ cookiecutter.project_slug }}.apps.{{ cookiecutter.project_slug.title }}AppConfig",
+    "{{ cookiecutter.project_slug }}.apps.{{ cookiecutter.project_slug.title().replace('_', '') }}AppConfig",
     # ... add here more apps
 ]
 

@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class {{ cookiecutter.project_slug.title }}Config(AppConfig):
+class {{ cookiecutter.project_slug.title().replace('_', '') }}AppConfig(AppConfig):
     name = '{{ cookiecutter.project_slug }}'
 
     def ready(self):
