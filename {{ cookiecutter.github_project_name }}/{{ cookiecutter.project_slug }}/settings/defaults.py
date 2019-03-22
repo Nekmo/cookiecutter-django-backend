@@ -4,7 +4,7 @@ from django.core.management.utils import get_random_secret_key
 
 # PATHS
 # ------------------------------------------------------------------------------
-LOGS_DIRECTORY = '/var/log/{{ cookiecutter.project_name }}'
+LOGS_DIRECTORY = '/var/log/{{ cookiecutter.github_project_name }}'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 # GENERAL

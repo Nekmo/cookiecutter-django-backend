@@ -1,0 +1,28 @@
+{
+  "project_name": "My Project Name",
+  "github_project_name": "{{ cookiecutter.project_name.lower()|replace(' ', '-')|replace('.', '_')|trim() }}",
+  "project_slug": "{{ cookiecutter.github_project_name|replace('-', '_') }}",
+  "description": "My project description...",
+  "author_name": "Nekmo",
+  "domain_name": "example.com",
+  "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@{{ cookiecutter.domain_name }}",
+  "version": "0.1.0",
+  "open_source_license": [
+    "MIT",
+    "BSD",
+    "GPLv3",
+    "Apache Software License 2.0",
+    "Not open source"
+  ],
+  "timezone": "UTC",
+  "postgresql_version": "11.2",
+  "js_task_runner": [
+    "None",
+    "Gulp"
+  ],
+  "use_celery": "y",
+  "use_sentry": "y",
+  "use_travisci": "n",
+  "keep_local_envs_in_vcs": "y",
+  "debug": "n"
+}
