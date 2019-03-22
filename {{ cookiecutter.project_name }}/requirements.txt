@@ -1,0 +1,36 @@
+# Django
+# ----------------------------------------
+Django
+django-debug-toolbar
+django-extensions
+gunicorn
+
+# Databases
+# ----------------------------------------
+psycopg2
+
+
+# Rest Framework
+# ----------------------------------------
+djangorestframework
+django-filter
+django-crispy-forms
+
+
+# Code Quality and testing
+# ----------------------------------------
+factory-boy  # Fixtures
+flake8
+mypy
+black
+tox
+raven  # Sentry
+
+# Celery
+# ----------------------------------------
+celery
+flower
+
+# Documentation
+# ----------------------------------------
+Sphinx
