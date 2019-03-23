@@ -1,0 +1,35 @@
+version: '2'
+services:
+
+  nginx:
+    extends:
+      file: common-services.yml
+      service: nginx-base
+    volumes_from:
+      - gunicorn
+    depends_on:
+      - gunicorn
+
+  gunicorn:
+    extends:
+      file: common-services.yml
+      service: gunicorn-base
+    depends_on:
+      - redis
+      - postgres
+      - rabbitmq
+
+  redis:
+    extends:
+      file: common-services.yml
+      service: redis-base
+
+  postgres:
+    extends:
+      file: common-services.yml
+      service: postgres-base
+
+  rabbitmq:
+    extends:
+      file: common-services.yml
+      service: rabbitmq-base

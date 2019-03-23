@@ -1,0 +1,40 @@
+version: '2'
+services:
+
+  nginx-base:
+    restart: on-failure
+    image: "nginx"
+    volumes:
+      - ./conf/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./conf/nginx/ssl:/etc/nginx/ssl:ro
+
+      - ./data/nginx/log/:/var/log/nginx/
+    ports:
+      - "80:80"
+      - "443:443"
+    command: [ 'nginx-debug', '-g', 'daemon off;']
+
+  gunicorn-base:
+    restart: on-failure
+    build: .
+    volumes:
+      - .:/code
+      - ./data/gunicorn/logs:/var/log/{{ cookiecutter.github_project_name }}/
+      - ./data/gunicorn/static:/static
+
+  redis-base:
+    image: "redis"
+    volumes:
+      - ./data/redis:/data
+
+  postgres-base:
+    restart: on-failure
+    image: postgres
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data
+
+  rabbitmq-base:
+    restart: on-failure
+    image: "rabbitmq"
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
