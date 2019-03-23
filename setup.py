@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""A cookiecutter for enterprise projects with support for Celery, Django Rest Framework and deployment with Ansible and Docker
+"""A cookiecutter for enterprise projects with support for Celery, Django Rest Framework and deployment with
+Ansible and Docker
 """
 import copy
 import os
@@ -17,7 +18,7 @@ PACKAGE_NAME = 'cookiecutter-django-backend'
 PACKAGE_DOWNLOAD_URL = 'https://github.com/Nekmo/cookiecutter-django-backend/archive/master.zip'
 REQUIREMENT_FILE = 'requirements.txt'
 STATUS_LEVEL = 5  # 1:Planning 2:Pre-Alpha 3:Alpha 4:Beta 5:Production/Stable 6:Mature 7:Inactive
-KEYWORDS = ['cookiecutter-django-backend']
+KEYWORDS = ['cookiecutter-django-backend', 'cookiecutter', 'django']
 LICENSE = 'MIT license'
 
 CLASSIFIERS = [  # https://github.com/github/choosealicense.com/tree/gh-pages/_licenses
