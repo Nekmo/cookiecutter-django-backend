@@ -1,6 +1,30 @@
 
 Cookiecutter Django Backend
 ###########################
+A cookiecutter for create a simple and standard Django project with everything necessary for a backend. Unlike other
+cookiecutters, it is less intrusive.
+
+Install or update Cookiecutter to the latest version::
+
+    $ pip install -U cookiecutter
+
+Create your new project using this cookiecutter::
+
+    $ cookiecutter https://github.com/Nekmo/djangocookiecutter-django-backend
+
+Or use the abbreviation (see below):
+
+    $ cookiecutter dj
+
+Features
+========
+
+* For Django 2.0+
+* Docker support using docker-compose.
+* Secure by default. With HTTPS Nginx config and Let'sEncrypt.
+* Develop and production settings
+* Ready for Celery and Django Rest Framework.
+* Deployment using Ansible and Docker.
 
 
 Customize your default options
