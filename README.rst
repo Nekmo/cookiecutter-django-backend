@@ -1,3 +1,24 @@
+.. image:: https://raw.githubusercontent.com/Nekmo/cookiecutter-django-backend/master/images/logo.png
+    :width: 100%
+
+|
+
+.. image:: https://img.shields.io/travis/Nekmo/cookiecutter-django-backend/develop.svg?style=flat-square&maxAge=2592000
+  :target: https://travis-ci.org/Nekmo/cookiecutter-django-backend
+  :alt: Latest Travis CI build status
+
+.. image:: https://img.shields.io/pypi/v/cookiecutter-django-backend.svg?style=flat-square
+  :target: https://pypi.org/project/cookiecutter-django-backend/
+  :alt: Latest PyPI version
+
+.. image:: https://img.shields.io/pypi/pyversions/cookiecutter-django-backend.svg?style=flat-square
+  :target: https://pypi.org/project/cookiecutter-django-backend/
+  :alt: Python versions
+
+.. image:: https://img.shields.io/requires/github/Nekmo/cookiecutter-django-backend.svg?style=flat-square
+     :target: https://requires.io/github/Nekmo/cookiecutter-django-backend/requirements/?branch=master
+     :alt: Requirements Status
+
 
 Cookiecutter Django Backend
 ###########################
