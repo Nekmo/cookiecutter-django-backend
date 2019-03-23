@@ -12,7 +12,7 @@ Create your new project using this cookiecutter::
 
     $ cookiecutter https://github.com/Nekmo/djangocookiecutter-django-backend
 
-Or use the abbreviation (see below):
+Or use the abbreviation (see below)::
 
     $ cookiecutter dj
 

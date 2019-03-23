@@ -1,0 +1,3 @@
+cookiecutter
+flake8
+tox
