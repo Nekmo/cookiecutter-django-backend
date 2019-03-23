@@ -37,6 +37,9 @@ Or use the abbreviation (see below)::
 
     $ cookiecutter dj
 
+This cookiecutter is based on `cookiecutter-django <https://github.com/pydanny/cookiecutter-django>`_, but
+the structure is standard and simpler.
+
 Features
 ========
 
@@ -64,3 +67,4 @@ file in your user directory:
     abbreviations:
       dj: https://github.com/Nekmo/cookiecutter-django-backend
       gh: https://github.com/{0}.git
+

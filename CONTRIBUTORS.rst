@@ -26,4 +26,8 @@ None yet. Why not be the first?
 Special Thanks
 ==============
 
-None yet. Why not be the first?
+This project is based on `cookiecutter-django <https://github.com/pydanny/cookiecutter-django>`_. However,
+it is quite different. This project removes all AWS dependencies, the settings have been simplified
+(it is no longer necessary to execute a command with each change...), uses a standard web server (Nginx),
+remove Pytest because Django uses unittest by default, Django's structure is standard, it has no templates
+by default, does not overwrite the Django login... and many more changes.
