@@ -42,15 +42,25 @@ services:
 
   flower:
     extends:
-      service: gunicorn
+      file: common-services.yml
+      service: gunicorn-base
     entrypoint:
       - celery
       - flower
       - --app={{cookiecutter.project_slug}}
+    depends_on:
+      - redis
+      - postgres
+      - rabbitmq
+    env_file:
+      - .env
+    environment:
+      DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
 
   celeryworker:
     extends:
-      service: gunicorn
+      file: common-services.yml
+      service: gunicorn-base
     entrypoint:
       - celery
       - -A
@@ -58,10 +68,19 @@ services:
       - worker
       - -l
       - INFO
+    depends_on:
+      - redis
+      - postgres
+      - rabbitmq
+    env_file:
+      - .env
+    environment:
+      DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
 
   celerybeat:
     extends:
-      service: gunicorn
+      file: common-services.yml
+      service: gunicorn-base
     entrypoint:
       - celery
       - -A
@@ -69,3 +88,11 @@ services:
       - beat
       - -l
       - INFO
+    depends_on:
+      - redis
+      - postgres
+      - rabbitmq
+    env_file:
+      - .env
+    environment:
+      DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
