@@ -35,3 +35,33 @@ services:
     extends:
       file: common-services.yml
       service: rabbitmq-base
+
+  flower:
+    extends:
+      service: gunicorn
+    entrypoint:
+      - celery
+      - flower
+      - --app={{cookiecutter.project_slug}}
+
+  celeryworker:
+    extends:
+      service: gunicorn
+    entrypoint:
+      - celery
+      - -A
+      - {{cookiecutter.project_slug}}
+      - worker
+      - -l
+      - INFO
+
+  celerybeat:
+    extends:
+      service: gunicorn
+    entrypoint:
+      - celery
+      - -A
+      - {{cookiecutter.project_slug}}
+      - beat
+      - -l
+      - INFO

@@ -1,0 +1,18 @@
+version: '2'
+services:
+
+  gunicorn:
+    extends:
+      file: common-services.yml
+      service: gunicorn-base
+    depends_on:
+      - postgres
+    ports:
+      - 8000:8000
+    environment:
+      DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.develop'
+
+  postgres:
+    extends:
+      file: common-services.yml
+      service: postgres-base
