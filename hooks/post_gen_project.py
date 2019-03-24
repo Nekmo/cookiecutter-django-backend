@@ -1,6 +1,6 @@
 import random
 import string
-
+from subprocess import check_call, check_output, CalledProcessError
 
 ENV_FILE = '.env'
 SECRET_KEY_FORMAT = '!!{}!!'
@@ -26,6 +26,11 @@ def set_secrets(path):
 
 def main():
     set_secrets(ENV_FILE)
+    check_call(['git', 'init'])
+    try:
+        check_call(['git', 'rev-list', '--count', 'HEAD'])
+    except CalledProcessError:
+        check_call(['git', 'commit', '--allow-empty', '-m', 'Initial commit'])
 
 
 if __name__ == '__main__':
