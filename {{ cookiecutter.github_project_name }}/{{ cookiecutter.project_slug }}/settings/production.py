@@ -69,7 +69,27 @@ ROTATING_FILE_HANDLER = {
     'backupCount': 10,
 }
 LOGGING = {
+    'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'formatters': {
+        'console': {
+            # exact format is not important, this is the minimum information
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[{server_time}] {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'sentry': {
             'level': 'ERROR',
@@ -80,6 +100,8 @@ LOGGING = {
             'level': 'INFO',
             'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
+            'formatter': 'console',
+            "stream": "ext://sys.stdout"
         },
         'celery_file': dict(ROTATING_FILE_HANDLER, **{
             'level': 'INFO',
