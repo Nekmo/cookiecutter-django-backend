@@ -18,6 +18,8 @@ services:
       - redis
       - postgres
       - rabbitmq
+    env_file:
+      - .env
     environment:
       DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
 
@@ -30,6 +32,8 @@ services:
     extends:
       file: common-services.yml
       service: postgres-base
+    env_file:
+      - .env
 
   rabbitmq:
     extends:
