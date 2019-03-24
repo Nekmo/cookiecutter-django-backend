@@ -18,6 +18,8 @@ services:
       - redis
       - postgres
       - rabbitmq
+    environment:
+      DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
 
   redis:
     extends:

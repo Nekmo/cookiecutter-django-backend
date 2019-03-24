@@ -16,7 +16,7 @@ services:
 
   gunicorn-base:
     restart: on-failure
-    build: .
+    build: ./compose/gunicorn
     volumes:
       - .:/code
       - ./data/gunicorn/logs:/var/log/{{ cookiecutter.github_project_name }}/
