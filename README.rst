@@ -31,7 +31,7 @@ Install or update Cookiecutter to the latest version::
 
 Create your new project using this cookiecutter::
 
-    $ cookiecutter https://github.com/Nekmo/djangocookiecutter-django-backend
+    $ cookiecutter https://github.com/Nekmo/cookiecutter-django-backend.git
 
 Or use the abbreviation (see below)::
 
