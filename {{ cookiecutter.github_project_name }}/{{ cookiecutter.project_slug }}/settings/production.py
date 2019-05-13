@@ -1,7 +1,7 @@
 import raven
 from .defaults import *
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['{{ cookiecutter.domain_name }}']
 
 STATIC_ROOT = '/static'
 MEDIA_ROOT = '/media'
