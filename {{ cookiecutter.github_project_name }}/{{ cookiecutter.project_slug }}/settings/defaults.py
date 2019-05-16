@@ -1,14 +1,18 @@
 import os
+
 from django.utils.translation import gettext_lazy as _
 from django.core.management.utils import get_random_secret_key
+from dotenv import load_dotenv
 
 # PATHS
 # ------------------------------------------------------------------------------
 LOGS_DIRECTORY = '/var/log/{{ cookiecutter.github_project_name }}'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+ENV_FILE = os.path.join(BASE_DIR, '.env')
 
 # GENERAL
 # ------------------------------------------------------------------------------
+load_dotenv(dotenv_path=ENV_FILE)
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
@@ -16,7 +20,7 @@ SITE_ID = 1
 WSGI_APPLICATION = '{{ cookiecutter.project_slug }}.wsgi.application'
 ROOT_URLCONF = '{{ cookiecutter.project_slug }}.urls'
 ALLOWED_HOSTS = []
-SECRET_KEY_FILE = os.path.join(BASE_DIR, 'secret_key')
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -191,5 +195,3 @@ AUTH_PASSWORD_VALIDATORS = [
 if not os.path.lexists(SECRET_KEY_FILE):
     with open(SECRET_KEY_FILE, 'w') as f:
         f.write(get_random_secret_key())
-
-SECRET_KEY = open(SECRET_KEY_FILE, 'r').read()

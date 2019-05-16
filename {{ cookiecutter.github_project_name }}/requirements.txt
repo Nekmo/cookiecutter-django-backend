@@ -16,6 +16,10 @@ djangorestframework
 django-filter
 django-crispy-forms
 
+# Configuration
+# ------------------------------------------------------------------------------
+python-dotenv
+
 # Code Quality and testing
 # ------------------------------------------------------------------------------
 factory-boy  # Fixtures
