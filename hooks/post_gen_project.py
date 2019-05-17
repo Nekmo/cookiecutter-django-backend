@@ -1,5 +1,6 @@
 import random
 import string
+import subprocess
 from subprocess import check_call, check_output, CalledProcessError
 
 ENV_FILE = '.env'
@@ -31,9 +32,11 @@ def main():
     set_secrets(ENV_FILE)
     check_call(['git', 'init'])
     try:
-        check_call(['git', 'rev-list', '--count', 'HEAD'])
+        check_output(['git', 'rev-list', '--count', 'HEAD'], stderr=subprocess.DEVNULL)
     except CalledProcessError:
         check_call(['git', 'commit', '--allow-empty', '-m', 'Initial commit'])
+    print('[?] For add a remote repo: git remote add origin <repo>')
+    print('[?] Push to remote origin: git push origin master')
 
 
 if __name__ == '__main__':
