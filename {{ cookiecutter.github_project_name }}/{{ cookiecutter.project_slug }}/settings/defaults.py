@@ -189,9 +189,3 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-# SECRET KEY
-# ------------------------------------------------------------------------------
-if not os.path.lexists(SECRET_KEY_FILE):
-    with open(SECRET_KEY_FILE, 'w') as f:
-        f.write(get_random_secret_key())

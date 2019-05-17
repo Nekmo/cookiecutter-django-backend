@@ -55,6 +55,9 @@ EMAIL_SUBJECT_PREFIX = default="[{{cookiecutter.project_name}}]"
 
 # SENTRY VALIDATION
 # ------------------------------------------------------------------------------
+INSTALLED_APPS.append(
+    'raven.contrib.django.raven_compat',
+)
 RAVEN_CONFIG = {
     'dsn': '',
     # If you are using git, you can also automatically configure the
