@@ -1,8 +1,10 @@
 language: python
 services:
   - docker
-
 python: 3.8
+
+install:
+  - pip install cookiecutter
 
 script:
   - ./tests/test_docker.sh
