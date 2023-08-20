@@ -2,11 +2,6 @@
 {{cookiecutter.project_name}}
 {{ '#' * cookiecutter.project_name|length }}
 
-.. image:: https://img.shields.io/travis/{{ cookiecutter.github_user }}/{{ cookiecutter.github_project_name }}
-.svg?style=flat-square&maxAge=2592000
-  :target: https://travis-ci.org/{{ cookiecutter.github_user }}/{{ cookiecutter.github_project_name }}
-  :alt: Latest Travis CI build status
-
 .. image:: https://img.shields.io/pypi/v/{{ cookiecutter.github_project_name }}.svg?style=flat-square
   :target: https://pypi.org/project/{{ cookiecutter.github_project_name }}/
   :alt: Latest PyPI version
