@@ -20,6 +20,6 @@
   "python_version": "3.11",
   "use_celery": "y",
   "use_sentry": "y",
-  "use_traefik": "y",
-  "use_yacron": "y"
+  "use_yacron": "y",
+  "use_traefik": "n"
 }

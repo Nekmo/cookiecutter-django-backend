@@ -25,7 +25,7 @@ def set_secrets(path):
     set_secret(path, 'POSTGRES_USER')
     set_secret(path, 'POSTGRES_PASSWORD')
     set_secret(path, 'SECRET_KEY', secret_length=50,
-               chars='abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
+               chars='abcdefghijklmnopqrstuvwxyz0123456789!@#%^&*(-_=+)')
 
 
 def main():
