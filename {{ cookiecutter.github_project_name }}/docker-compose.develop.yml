@@ -24,6 +24,11 @@ services:
       - 8000:8000
     environment:
       DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.develop'
+    entrypoint:
+      - python
+      - manage.py
+      - runserver
+      - 0.0.0.0:8000
 
   postgres:
     restart: always
