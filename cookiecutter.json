@@ -17,12 +17,9 @@
   ],
   "timezone": "UTC",
   "postgresql_version": "11.2",
-  "js_task_runner": [
-    "None",
-    "Gulp"
-  ],
+  "python_version": "3.11",
   "use_celery": "y",
   "use_sentry": "y",
-  "keep_local_envs_in_vcs": "y",
-  "debug": "n"
+  "use_traefik": "y",
+  "use_yacron": "y"
 }

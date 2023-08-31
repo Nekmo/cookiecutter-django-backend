@@ -1,3 +1,4 @@
 .*
 !.coveragerc
 !.pylintrc
+data

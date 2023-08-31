@@ -1,53 +1,86 @@
-version: '2'
+version: '3.6'
 services:
 
   nginx:
-    extends:
-      file: common-services.yml
-      service: nginx-base
-    volumes_from:
-      - gunicorn
-    depends_on:
-      - gunicorn
+    hostname: {{ cookiecutter.project_slug }}-nginx
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: nginx-build
+    volumes:
+      - ./conf/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./conf/nginx/ssl:/etc/nginx/ssl:ro
+      - ./data/nginx/log/:/var/log/nginx/
+      - ./data/gunicorn/static:/static:ro{% if cookiecutter.use_traefik %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.{{ cookiecutter.project_slug }}.rule=Host(`{{ cookiecutter.domain_name }}`)"
+      - "traefik.http.routers.{{ cookiecutter.project_slug }}.tls=true"
+      - "traefik.http.routers.{{ cookiecutter.project_slug }}.entrypoints=websecure"
+      - "traefik.docker.network=web-router"
+    networks:
+      - web-router
+      - default{% else %}
+    ports:
+      - "80:80"
+      - "443:443"{% endif %}
 
-  gunicorn:
-    extends:
-      file: common-services.yml
-      service: gunicorn-base
-    depends_on:
-      - redis
-      - postgres
-      - rabbitmq
-    env_file:
-      - .env
+  nginx-ips:
+    hostname: {{ cookiecutter.project_slug }}-nginx-ips
+    build: https://github.com/Nekmo/nginx-dynamic-ips.git
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./conf/nginx-ips/:/input"
+      - "/usr/bin/docker:/usr/bin/docker:ro"
+      - "./conf/nginx/conf.d:/etc/nginx/conf.d"
     environment:
-      DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
+      OUTPUT_FILE: "/etc/nginx/conf.d/allowed_ips.conf"
+      LOOP_FOREVER: 10
+      NGINX_CONTAINER: {{ cookiecutter.project_slug }}_nginx_1
 
   redis:
-    extends:
-      file: common-services.yml
-      service: redis-base
+    hostname: {{ cookiecutter.project_slug }}-redis
+    restart: always
+    image: "redis"
+    volumes:
+      - ./data/redis:/data
 
   postgres:
-    extends:
-      file: common-services.yml
-      service: postgres-base
+    hostname: {{ cookiecutter.project_slug }}-postgres
+    restart: always
+    image: postgres:{{ cookiecutter.postgresql_version }}
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data
     env_file:
       - .env
 
   rabbitmq:
-    extends:
-      file: common-services.yml
-      service: rabbitmq-base
+    hostname: {{ cookiecutter.project_slug }}-rabbitmq
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: rabbitmq-build
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
 
-  flower:
-    extends:
-      file: common-services.yml
-      service: gunicorn-base
-    entrypoint:
-      - celery
-      - flower
-      - --app={{cookiecutter.project_slug}}
+  gunicorn: &gunicorn
+    hostname: {{ cookiecutter.project_slug }}-gunicorn
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: gunicorn-build
+    volumes:
+      - .:/code
+      - ./data/gunicorn/log:/var/log/{{ cookiecutter.github_project_name }}/
+      - ./data/gunicorn/static:/static
     depends_on:
       - redis
       - postgres
@@ -56,43 +89,67 @@ services:
       - .env
     environment:
       DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
-
+{% if cookiecutter.use_yacron != "n" %}
+  yacron:
+    <<: *gunicorn
+    hostname: {{ cookiecutter.project_slug }}-yacron
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    depends_on:
+      - redis
+      - postgres
+      - rabbitmq
+    volumes:
+      - .:/code
+      - ./data/gunicorn/log:/var/log/{{ cookiecutter.github_project_name }}/
+      - ./data/gunicorn/static:/static
+      - "./conf/yacron:/etc/yacron"
+    command:
+      - yacron
+      - -c
+      - /etc/yacron/yacron.yml{% endif %}
+{% if cookiecutter.use_celery != "n" %}
   celeryworker:
-    extends:
-      file: common-services.yml
-      service: gunicorn-base
-    entrypoint:
+    <<: *gunicorn
+    hostname: {{ cookiecutter.project_slug }}-celeryworker
+    command:
       - celery
       - -A
       - {{cookiecutter.project_slug}}
       - worker
       - -l
       - INFO
-    depends_on:
-      - redis
-      - postgres
-      - rabbitmq
-    env_file:
-      - .env
-    environment:
-      DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
+      - --max-tasks-per-child=20
+      - --concurrency=8
+      - --time-limit=600
 
   celerybeat:
-    extends:
-      file: common-services.yml
-      service: gunicorn-base
-    entrypoint:
+    <<: *gunicorn
+    hostname: {{ cookiecutter.project_slug }}-celerybeat
+    command:
       - celery
+      - --pidfile=
       - -A
       - {{cookiecutter.project_slug}}
       - beat
       - -l
       - INFO
-    depends_on:
-      - redis
-      - postgres
-      - rabbitmq
-    env_file:
-      - .env
-    environment:
-      DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.production'
+
+  flower:
+    <<: *gunicorn
+    hostname: {{ cookiecutter.project_slug }}-flower
+    command:
+      - celery
+      - -A
+      - {{cookiecutter.project_slug}}
+      - flower
+      - -l
+      - INFO
+      - --url-prefix=flower{% endif %}{% if cookiecutter.use_traefik %}
+
+networks:
+  web-router:
+    external: true{% endif %}

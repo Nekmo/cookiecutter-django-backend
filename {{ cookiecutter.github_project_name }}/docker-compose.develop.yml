@@ -1,18 +1,45 @@
-version: '2'
+version: '3.6'
 services:
 
   gunicorn:
-    extends:
-      file: common-services.yml
-      service: gunicorn-base
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: gunicorn-build
+    volumes:
+      - .:/code
+      - ./data/gunicorn/log:/var/log/{{ cookiecutter.github_project_name }}/
+      - ./data/gunicorn/static:/static
     depends_on:
-      - postgres
+      - postgres{% if cookiecutter.use_celery %}
+      - rabbitmq{% endif %}
+    env_file:
+      - .env
     ports:
       - 8000:8000
     environment:
       DJANGO_SETTINGS_MODULE: '{{ cookiecutter.project_slug }}.settings.develop'
 
   postgres:
-    extends:
-      file: common-services.yml
-      service: postgres-base
+    restart: always
+    image: postgres:{{ cookiecutter.postgresql_version }}
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+{% if cookiecutter.use_celery %}
+  rabbitmq:
+    restart: always
+    hostname: rabbitmq
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: rabbitmq-build
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+{% endif %}
