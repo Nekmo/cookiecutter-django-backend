@@ -18,6 +18,8 @@ SSL_DHPARAMS = f"{SSL_DIRECTORY}/ssl-dhparams.pem"
 PYTHON_VERSION = '{{ cookiecutter.python_version }}'
 VIRTUALENVS_DIR = Path(os.path.expanduser("~/.virtualenvs"))
 GITHUB_PROJECT_NAME = '{{ cookiecutter.github_project_name }}'
+USE_CELERY = {{ cookiecutter.use_celery }}
+USE_YACRON = {{ cookiecutter.use_yacron }}
 CREATE_VIRTUALENV = {{ cookiecutter.create_virtualenv }}
 
 
@@ -78,6 +80,21 @@ def docker_separator():
         replace_in_file(glob.glob("conf/nginx/conf.d/*.conf")[0], "DOCKER_SEPARATOR", "-")
 
 
+def remove_files_dirs(file_names, dir_names):
+    for file_name in file_names:
+        os.remove(str(file_name))
+    for dir_name in dir_names:
+        os.rmdir(str(dir_name))
+
+
+def remove_celery_files():
+    remove_files_dirs([Path("{{ cookiecutter.project_slug }}") / "celery.py"], [])
+
+
+def remove_yacron_files():
+    remove_files_dirs([Path("conf") / "yacron" / "yacron.yml"], [Path("conf") / "yacron"])
+
+
 def create_virtualenv():
     virtualenv_dir = VIRTUALENVS_DIR / GITHUB_PROJECT_NAME
     subprocess.run([f'python{PYTHON_VERSION}', '-m', 'venv', str(virtualenv_dir)])
@@ -90,6 +107,10 @@ def create_virtualenv():
 
 
 def main():
+    if not USE_CELERY:
+        remove_celery_files()
+    if not USE_YACRON:
+        remove_yacron_files()
     set_secrets(ENV_FILE)
     download_ssl_files()
     docker_separator()

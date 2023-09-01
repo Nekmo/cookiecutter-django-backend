@@ -1,0 +1,20 @@
+{% raw %}defaults:
+  onFailure:
+    report:
+      sentry:
+        dsn:
+          fromEnvVar: SENTRY_DSN
+        fingerprint:
+          - yacron
+          - "{{ environment.HOSTNAME }}"
+          - "{{ name }}"
+        level: warning
+  failsWhen:
+    producesStdout: false
+    producesStderr: false
+    nonzeroReturn: true
+    always: false
+jobs:
+  - name: Clear old user sessions
+    command: ./manage.py clearsessions
+    schedule: "0 * * * *"{% endraw %}
