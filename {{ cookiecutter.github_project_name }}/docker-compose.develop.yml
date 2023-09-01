@@ -15,8 +15,8 @@ services:
       - .:/code
       - ./data/gunicorn/log:/var/log/{{ cookiecutter.github_project_name }}/
       - ./data/gunicorn/static:/static
-    depends_on:
-      - postgres{% if cookiecutter.use_celery %}
+    {% if cookiecutter.use_postgres_in_dev or cookiecutter.use_celery %}depends_on:{% endif %}
+      {% if cookiecutter.use_postgres_in_dev %}- postgres{% endif %}{% if cookiecutter.use_celery %}
       - rabbitmq{% endif %}
     env_file:
       - .env
@@ -29,14 +29,14 @@ services:
       - manage.py
       - runserver
       - 0.0.0.0:8000
-
+{% if cookiecutter.use_postgres_in_dev %}
   postgres:
     restart: always
     image: postgres:{{ cookiecutter.postgresql_version }}
     volumes:
       - ./data/postgres/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_HOST_AUTH_METHOD: trust{% endif %}
 {% if cookiecutter.use_celery %}
   rabbitmq:
     restart: always

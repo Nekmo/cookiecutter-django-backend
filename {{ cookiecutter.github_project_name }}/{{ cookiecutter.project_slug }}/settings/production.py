@@ -6,22 +6,12 @@ ALLOWED_HOSTS = ['{{ cookiecutter.domain_name }}']
 STATIC_ROOT = '/static'
 MEDIA_ROOT = '/media'
 
-DATABASES['default'] = {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'postgres',
-    'USER': 'postgres',
-    'HOST': '',
-    'PORT': '',
-    'PASSWORD': '',
-    'CONN_MAX_AGE': 180,
-}
-
 # CACHES
 # ------------------------------------------------------------------------------
 CACHES['default'] = {
     'BACKEND': 'redis_cache.RedisCache',
-    'LOCATION': '',
-    'TIMEOUT': 60,
+    'LOCATION': 'redis://redis:6379/1',
+    'TIMEOUT': 60 * 60 * 24 * 2,
     'OPTIONS': {
         'DB': 0,
         'MAX_ENTRIES': 10000,

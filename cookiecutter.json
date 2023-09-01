@@ -16,10 +16,11 @@
     "Not open source"
   ],
   "timezone": "UTC",
-  "postgresql_version": "11.2",
   "python_version": "3.11",
-  "use_celery": "y",
-  "use_sentry": "y",
-  "use_yacron": "y",
-  "use_traefik": "n"
+  "postgresql_version": "15.4",
+  "use_celery": true,
+  "use_sentry": true,
+  "use_yacron": true,
+  "use_traefik": false,
+  "use_postgres_in_dev": false
 }
