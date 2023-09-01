@@ -1,8 +1,8 @@
 from .defaults import *
 
 ALLOWED_HOSTS = ['*']
-STATIC_ROOT = os.path.join(BASE_DIR, '_static')
-MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
+STATIC_ROOT = str(BASE_DIR / '_static')
+MEDIA_ROOT = str(BASE_DIR / '_media')
 DEBUG = True
 
 

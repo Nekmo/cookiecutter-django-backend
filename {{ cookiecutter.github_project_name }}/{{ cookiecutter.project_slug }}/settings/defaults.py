@@ -1,22 +1,30 @@
 import os
+from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
-from django.core.management.utils import get_random_secret_key
+
 from dotenv import load_dotenv
 
 # PATHS
 # ------------------------------------------------------------------------------
-LOGS_DIRECTORY = '/var/log/{{ cookiecutter.github_project_name }}'
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-ENV_FILE = os.path.join(BASE_DIR, '.env')
+LOGS_DIRECTORY = Path('/var/log/{{ cookiecutter.github_project_name }}')
+BASE_DIR = Path(__file__).resolve().parent.parent
+ENV_FILE = LOGS_DIRECTORY / '.env'
 
 # GENERAL
 # ------------------------------------------------------------------------------
-load_dotenv(dotenv_path=ENV_FILE)
+load_dotenv(dotenv_path=str(ENV_FILE))
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = False
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 WSGI_APPLICATION = '{{ cookiecutter.project_slug }}.wsgi.application'
 ROOT_URLCONF = '{{ cookiecutter.project_slug }}.urls'
 ALLOWED_HOSTS = []
@@ -27,13 +35,13 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = [
     # Core apps
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.admin",
 
     # Third party apps
     "django_extensions",
@@ -43,6 +51,41 @@ INSTALLED_APPS = [
     # Project apps
     "{{ cookiecutter.project_slug }}.apps.{{ cookiecutter.project_slug.title().replace('_', '') }}AppConfig",
     # ... add here more apps
+]
+
+# MIDDLEWARE
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#middleware
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+# TEMPLATES
+# ------------------------------------------------------------------------------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
 ]
 
 # DATABASES
@@ -68,19 +111,6 @@ CACHES = {
     }
 }
 
-# MIDDLEWARE
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#middleware
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
-
 # STATIC
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-root
@@ -88,8 +118,7 @@ STATIC_ROOT = None
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [
-]
+STATICFILES_DIRS = []
 
 # MEDIA
 # ------------------------------------------------------------------------------
@@ -97,30 +126,6 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = None
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
-
-# TEMPLATES
-# ------------------------------------------------------------------------------
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'static'),
-        ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
 
 # ADMIN
 # ------------------------------------------------------------------------------
@@ -131,6 +136,7 @@ MANAGERS = ADMINS
 
 # TIMEZONE, I18N AND L10N
 # ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
 #
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -150,6 +156,7 @@ LANGUAGES = [
     ('en', _('English')),
 ]
 
+{% if cookiecutter.use_celery %}
 # CELERY
 # ------------------------------------------------------------------------------
 if USE_TZ:
@@ -163,7 +170,7 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERYD_TASK_TIME_LIMIT = 5 * 60
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-soft-time-limit
 CELERYD_TASK_SOFT_TIME_LIMIT = 60
-
+{% endif %}
 # SECURITY
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-httponly

@@ -52,7 +52,7 @@ RAVEN_CONFIG = {
     'dsn': '',
     # If you are using git, you can also automatically configure the
     # release based on the git info.
-    'release': raven.fetch_git_sha(BASE_DIR),
+    'release': raven.fetch_git_sha(str(BASE_DIR)),
 }
 
 # LOGGING
@@ -99,15 +99,15 @@ LOGGING = {
         },
         'celery_file': dict(ROTATING_FILE_HANDLER, **{
             'level': 'INFO',
-            'filename': os.path.join(LOGS_DIRECTORY, 'celery.log'),
+            'filename': str(LOGS_DIRECTORY / 'celery.log'),
         }),
         'info_file': dict(ROTATING_FILE_HANDLER, **{
             'level': 'INFO',
-            'filename': os.path.join(LOGS_DIRECTORY, 'info.log'),
+            'filename': str(LOGS_DIRECTORY / 'info.log'),
         }),
         'error_file': dict(ROTATING_FILE_HANDLER, **{
             'level': 'ERROR',
-            'filename': os.path.join(LOGS_DIRECTORY, 'error.log'),
+            'filename': str(LOGS_DIRECTORY / 'error.log'),
         }),
         'django.server': {
             'level': 'INFO',
