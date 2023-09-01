@@ -15,11 +15,15 @@ openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 \
 echo "Testing develop environment"
 docker-compose -f docker-compose.develop.yml up -d --build
 sleep 10
+docker-compose ps
+docker-compose logs gunicorn
 curl http://127.0.0.1:8000 > /dev/null
 docker-compose down
 
 echo "Testing production environment"
 docker-compose -f docker-compose.yml up -d --build
 sleep 10
+docker-compose ps
+docker-compose logs nginx
 curl -k -H "Host: example.com" https://127.0.0.1 > /dev/null
 docker-compose down
