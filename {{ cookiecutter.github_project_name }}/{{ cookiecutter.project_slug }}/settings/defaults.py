@@ -34,6 +34,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = [
+    # Project apps
+    "{{ cookiecutter.project_slug }}.apps.{{ cookiecutter.project_slug.title().replace('_', '') }}AppConfig",
+
     # Core apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -48,8 +51,6 @@ INSTALLED_APPS = [
     "crispy_forms",
     "rest_framework",
 
-    # Project apps
-    "{{ cookiecutter.project_slug }}.apps.{{ cookiecutter.project_slug.title().replace('_', '') }}AppConfig",
     # ... add here more apps
 ]
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="favicon.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.0200015"
+     inkscape:cx="346.07791"
+     inkscape:cy="521.56784"
+     inkscape:window-width="2560"
+     inkscape:window-height="1361"
+     inkscape:window-x="5120"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <title
+     id="title1">file_type_django</title>
+  <path
+     d="m 13.860795,0.03466205 h 5.280613 V 24.232256 a 34.917306,34.917306 0 0 1 -6.849481,0.712517 c -6.4486079,-0.0066 -9.8047606,-2.887357 -9.8047606,-8.419681 0,-5.327227 3.5599191,-8.7899241 9.0775936,-8.7899241 a 8.587489,8.587489 0 0 1 2.296035,0.2663613 z m 0,12.17537595 a 5.316572,5.316572 0 0 0 -1.780626,-0.266361 c -2.6636128,0 -4.2125039,1.628799 -4.2125039,4.482861 0,2.779481 1.47431,4.313722 4.1792089,4.313722 a 12.459051,12.459051 0 0 0 1.813921,-0.133181 v -8.390382 z"
+     style="fill:#44b78b;stroke-width:1.3318"
+     id="path1" />
+  <path
+     d="M 27.53179,8.1040784 V 20.223519 c 0,4.172549 -0.312974,6.17825 -1.229257,7.908267 a 8.4116906,8.4116906 0 0 1 -4.315054,3.866235 L 17.089094,29.69 a 7.6019521,7.6019521 0 0 0 4.183205,-3.501319 c 0.753802,-1.492956 0.992195,-3.222972 0.992195,-7.773755 V 8.1040784 Z"
+     style="fill:#44b78b;stroke-width:1.3318"
+     id="path2" />
+  <rect
+     x="22.259167"
+     y="0.061298151"
+     width="5.2792816"
+     height="5.3645167"
+     style="fill:#44b78b;stroke-width:1.3318"
+     id="rect2" />
+</svg>

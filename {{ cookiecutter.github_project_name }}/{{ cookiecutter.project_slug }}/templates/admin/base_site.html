@@ -1,0 +1,12 @@
+{% raw %}{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans {% endraw %}'{{ cookiecutter.project_name }}{% raw %} site admin' %}{% endblock %}
+
+{% block extrahead %}
+    <link rel="icon" href="{{STATIC_URL}}img/favicon.svg" />
+{% endblock %}
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{% trans {% endraw %}'{{ cookiecutter.project_name }}{% raw %} administration' %}</a></h1>
+{% endblock %}
+{% endraw %}
