@@ -22,5 +22,6 @@
   "use_sentry": true,
   "use_yacron": true,
   "use_traefik": false,
-  "use_postgres_in_dev": false
+  "use_postgres_in_dev": false,
+  "create_virtualenv": true
 }

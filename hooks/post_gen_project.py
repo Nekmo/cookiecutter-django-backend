@@ -3,6 +3,7 @@ import os.path
 import random
 import string
 import subprocess
+from pathlib import Path
 from subprocess import check_call, check_output, CalledProcessError
 
 import requests
@@ -14,6 +15,10 @@ DEFAULT_KEY_CHARS = string.ascii_letters + string.digits
 SSL_DIRECTORY = "conf/nginx/ssl"
 OPTIONS_SSL_NGINX = f"{SSL_DIRECTORY}/options-ssl-nginx.conf"
 SSL_DHPARAMS = f"{SSL_DIRECTORY}/ssl-dhparams.pem"
+PYTHON_VERSION = '{{ cookiecutter.python_version }}'
+VIRTUALENVS_DIR = Path(os.path.expanduser("~/.virtualenvs"))
+GITHUB_PROJECT_NAME = '{{ cookiecutter.github_project_name }}'
+CREATE_VIRTUALENV = {{ cookiecutter.create_virtualenv }}
 
 
 def download(url, path):
@@ -73,6 +78,17 @@ def docker_separator():
         replace_in_file(glob.glob("conf/nginx/conf.d/*.conf")[0], "DOCKER_SEPARATOR", "-")
 
 
+def create_virtualenv():
+    virtualenv_dir = VIRTUALENVS_DIR / GITHUB_PROJECT_NAME
+    subprocess.run([f'python{PYTHON_VERSION}', '-m', 'venv', str(virtualenv_dir)])
+    env_bin = virtualenv_dir / "bin"
+    check_call([str(env_bin / 'pip'), 'install', '-U', 'pip-tools', 'pip'])
+    check_call([str(env_bin / 'pip-compile')])
+    check_call([str(env_bin / 'pip-compile'), 'dev-requirements.in'])
+    check_call([str(env_bin / 'pip-sync'), 'requirements.txt', 'dev-requirements.txt'])
+    check_call(['git', 'commit', '--allow-empty', '-m', 'Updated requirements.'])
+
+
 def main():
     set_secrets(ENV_FILE)
     download_ssl_files()
@@ -82,6 +98,8 @@ def main():
         check_output(['git', 'rev-list', '--count', 'HEAD'], stderr=subprocess.DEVNULL)
     except CalledProcessError:
         check_call(['git', 'commit', '--allow-empty', '-m', 'Initial commit'])
+    if CREATE_VIRTUALENV:
+        create_virtualenv()
     print('[?] For add a remote repo: git remote add origin <repo>')
     print('[?] Push to remote origin: git push origin master')
 
