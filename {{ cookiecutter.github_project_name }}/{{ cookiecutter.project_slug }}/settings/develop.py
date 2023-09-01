@@ -20,7 +20,7 @@ DATABASES['default'] = {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     'NAME': 'postgres',
     'USER': 'postgres',
-    'HOST': get_docker_container_ip('{{ cookiecutter.repo_project_name }}_postgres_1'),
+    'HOST': get_docker_container_ip('{{ cookiecutter.repo_project_name }}!!DOCKER_SEPARATOR!!postgres!!DOCKER_SEPARATOR!!1'),
     'PORT': '',
     'PASSWORD': 'postgres',
 }

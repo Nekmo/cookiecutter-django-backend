@@ -1,3 +1,4 @@
+import glob
 import os.path
 import random
 import string
@@ -8,7 +9,7 @@ import requests
 
 CHUNK_SIZE = 8192
 ENV_FILE = '.env'
-SECRET_KEY_FORMAT = '!!{}!!'
+REPLACE_FORMAT = '!!{}!!'
 DEFAULT_KEY_CHARS = string.ascii_letters + string.digits
 SSL_DIRECTORY = "conf/nginx/ssl"
 OPTIONS_SSL_NGINX = f"{SSL_DIRECTORY}/options-ssl-nginx.conf"
@@ -30,13 +31,17 @@ def generate_key(length, chars=DEFAULT_KEY_CHARS):
     return ''.join(random.choice(chars) for _ in range(length))
 
 
-def set_secret(path, secret_key, value=None, secret_length=32, chars=DEFAULT_KEY_CHARS):
-    value = value or generate_key(secret_length, chars)
+def replace_in_file(path, variable, value):
     with open(path, 'r+') as f:
-        content = f.read().replace(SECRET_KEY_FORMAT.format(secret_key), value)
+        content = f.read().replace(REPLACE_FORMAT.format(variable), value)
         f.seek(0)
         f.write(content)
         f.truncate()
+
+
+def set_secret(path, secret_key, value=None, secret_length=32, chars=DEFAULT_KEY_CHARS):
+    value = value or generate_key(secret_length, chars)
+    replace_in_file(path, secret_key, value)
 
 
 def set_secrets(path):
@@ -58,9 +63,20 @@ def download_ssl_files():
         check_call(["openssl", "dhparam", "-out", SSL_DHPARAMS, "2048"])
 
 
+def docker_separator():
+    output = check_output(["docker-compose", "--version"])
+    if "version 1." in output.decode():
+        replace_in_file("docker-compose.develop.yml", "DOCKER_SEPARATOR", "_")
+        replace_in_file(glob.glob("conf/nginx/conf.d/*.conf")[0], "DOCKER_SEPARATOR", "_")
+    else:
+        replace_in_file("docker-compose.develop.yml", "DOCKER_SEPARATOR", "-")
+        replace_in_file(glob.glob("conf/nginx/conf.d/*.conf")[0], "DOCKER_SEPARATOR", "-")
+
+
 def main():
     set_secrets(ENV_FILE)
     download_ssl_files()
+    docker_separator()
     check_call(['git', 'init'])
     try:
         check_output(['git', 'rev-list', '--count', 'HEAD'], stderr=subprocess.DEVNULL)
