@@ -2,4 +2,3 @@ cookiecutter
 flake8
 tox
 requests
--e git+https://github.com/Nekmo/django-code-generator.git@master#egg=django_code_generator
