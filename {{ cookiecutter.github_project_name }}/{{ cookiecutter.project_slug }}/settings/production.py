@@ -1,4 +1,5 @@
-import raven
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 from .defaults import *
 
 ALLOWED_HOSTS = ['{{ cookiecutter.domain_name }}']
@@ -45,15 +46,15 @@ EMAIL_SUBJECT_PREFIX = default="[{{cookiecutter.project_name}}]"
 
 # SENTRY VALIDATION
 # ------------------------------------------------------------------------------
-INSTALLED_APPS.append(
-    'raven.contrib.django.raven_compat',
+sentry_sdk.init(
+    dsn=os.environ.get("SENTRY_DSN"),
+    integrations=[DjangoIntegration()],
+    environment=os.environ.get('ENVIRONMENT_NAME', 'unknown'),
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
 )
-RAVEN_CONFIG = {
-    'dsn': '',
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(str(BASE_DIR)),
-}
 
 # LOGGING
 # ------------------------------------------------------------------------------

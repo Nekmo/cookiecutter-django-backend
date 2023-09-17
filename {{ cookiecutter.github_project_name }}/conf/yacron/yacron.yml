@@ -1,4 +1,4 @@
-{% raw %}defaults:
+{% raw %}defaults:{% if cookiecutter.use_sentry %}
   onFailure:
     report:
       sentry:
@@ -8,7 +8,7 @@
           - yacron
           - "{{ environment.HOSTNAME }}"
           - "{{ name }}"
-        level: warning
+        level: warning{% endif %}
   failsWhen:
     producesStdout: false
     producesStderr: false

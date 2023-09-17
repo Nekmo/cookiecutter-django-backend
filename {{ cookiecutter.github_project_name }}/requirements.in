@@ -26,8 +26,8 @@ factory-boy  # Fixtures
 flake8
 mypy
 black
-tox
-raven  # Sentry
+tox{% if cookiecutter.use_sentry %}
+sentry-sdk{% endif %}
 
 # Celery
 # ------------------------------------------------------------------------------
@@ -39,5 +39,5 @@ flower
 Sphinx
 
 # Other
-# ------------------------------------------------------------------------------
-{% if cookiecutter.use_yacron != "n" %}yacron{% endif %}
+# ------------------------------------------------------------------------------{% if cookiecutter.use_yacron != "n" %}
+yacron{% endif %}
