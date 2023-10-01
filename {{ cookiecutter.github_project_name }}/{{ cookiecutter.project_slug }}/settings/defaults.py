@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 # PATHS
 # ------------------------------------------------------------------------------
 LOGS_DIRECTORY = Path('/var/log/{{ cookiecutter.github_project_name }}')
-BASE_DIR = Path(__file__).resolve().parent.parent
-ENV_FILE = LOGS_DIRECTORY / '.env'
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+ENV_FILE = BASE_DIR / '.env'
 
 # GENERAL
 # ------------------------------------------------------------------------------
